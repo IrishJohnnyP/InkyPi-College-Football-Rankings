@@ -1,7 +1,7 @@
 {% extends "plugin.html" %}
 
 {% block content %}
-<div class="cfr-container">
+<div class="cfr-container {% if is_large %}cfr-large-display{% endif %}">
     <div class="cfr-header">
         <h1>{{ meta.season }} {{ poll_name }} - WEEK {{ meta.week }}</h1>
         <div class="cfr-updated">Last Updated: {{ last_updated }}</div>
@@ -16,7 +16,10 @@
                     <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
                 {% endif %}
                 <div class="cfr-name">
-                    {{ team.team }} <span class="cfr-nickname">({{ team.nickname }})</span>
+                    {{ team.team }}
+                    {% if not is_large %}
+                        <span class="cfr-nickname">({{ team.nickname }})</span>
+                    {% endif %}
                 </div>
                 <div class="cfr-record">{{ team.record }}</div>
             </div>
@@ -31,7 +34,10 @@
                     <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
                 {% endif %}
                 <div class="cfr-name">
-                    {{ team.team }} <span class="cfr-nickname">({{ team.nickname }})</span>
+                    {{ team.team }}
+                    {% if not is_large %}
+                        <span class="cfr-nickname">({{ team.nickname }})</span>
+                    {% endif %}
                 </div>
                 <div class="cfr-record">{{ team.record }}</div>
             </div>
