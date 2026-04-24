@@ -1,7 +1,7 @@
 from plugins.base_plugin.base_plugin import BasePlugin
 from utils.http_client import get_http_session
 
-class CollegeFootballRankings(BasePlugin):
+class CFBRankings(BasePlugin):
     def generate_image(self, settings, device_config):
         url = "https://college-football-rankings.pietrowicz.workers.dev"
         try:
