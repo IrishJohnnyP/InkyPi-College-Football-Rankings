@@ -11,7 +11,7 @@ class CFBRankings(BasePlugin):
     def generate_image(self, settings, device_config):
         url = "https://college-football-rankings.pietrowicz.workers.dev"
         try:
-            # Fix: Using InkyPi's built-in HTTP session utility instead of raw 'requests'
+            # Using InkyPi's built-in HTTP session utility
             session = get_http_session()
             response = session.get(url, timeout=10)
             
@@ -44,7 +44,7 @@ class CFBRankings(BasePlugin):
 
         # Uses InkyPi's built-in headless Chromium to render the template
         return self.render_image(
-            dimensions=(device_config.width, device_config.height),
+            dimensions=device_config.get_resolution(),
             html_file="college_football_rankings.html",
             css_file="college_football_rankings.css",
             template_params=template_params
