@@ -3,11 +3,8 @@
 {% block content %}
 <div class="cfr-container">
     <div class="cfr-header">
-        <div class="cfr-title-group">
-            <h1>{{ poll_name }} - WEEK {{ meta.week }}</h1>
-            <div class="cfr-updated">Last Updated: {{ last_updated }}</div>
-        </div>
-        <span class="cfr-season">{{ meta.season }}</span>
+        <h1>{{ meta.season }} {{ poll_name }} - WEEK {{ meta.week }}</h1>
+        <div class="cfr-updated">Last Updated: {{ last_updated }}</div>
     </div>
     
     <div class="cfr-columns">
