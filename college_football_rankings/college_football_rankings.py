@@ -11,7 +11,10 @@ class CFBRankings(BasePlugin):
     def generate_image(self, settings, device_config):
         url = "https://college-football-rankings.pietrowicz.workers.dev"
         try:
-            response = requests.get(url, timeout=10)
+            # Fix: Using InkyPi's built-in HTTP session utility instead of raw 'requests'
+            session = get_http_session()
+            response = session.get(url, timeout=10)
+            
             response.raise_for_status()
             data = response.json()
         except Exception as e:
