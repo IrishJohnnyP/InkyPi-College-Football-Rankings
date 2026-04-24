@@ -1,1 +1,92 @@
+.cfr-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    padding: 3%;
+    box-sizing: border-box;
+    font-family: inherit;
+    background-color: transparent;
+}
 
+.cfr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 4px solid #333;
+    padding-bottom: 1%;
+    margin-bottom: 2%;
+    flex-shrink: 0;
+}
+
+.cfr-header h1 {
+    margin: 0;
+    font-size: 5vh;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.cfr-season {
+    font-size: 4vh;
+    font-weight: bold;
+    color: #555;
+}
+
+.cfr-columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+    gap: 4%;
+}
+
+.cfr-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cfr-team {
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    flex-grow: 1;
+}
+
+.cfr-team:last-child {
+    border-bottom: none;
+}
+
+.cfr-rank {
+    font-size: 3.5vh;
+    font-weight: 900;
+    width: 8%;
+    text-align: right;
+    margin-right: 2%;
+    color: #D32F2F; /* Deep Red */
+}
+
+.cfr-logo {
+    height: 4vh;
+    width: 4vh;
+    object-fit: contain;
+    margin-right: 2%;
+}
+
+.cfr-name {
+    font-size: 3.5vh;
+    font-weight: bold;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cfr-record {
+    font-size: 3vh;
+    font-weight: bold;
+    color: #1976D2; /* Deep Blue */
+    text-align: right;
+    margin-left: 2%;
+}
