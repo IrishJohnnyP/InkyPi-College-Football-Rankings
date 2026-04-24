@@ -14,7 +14,7 @@
 .cfr-header {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* This perfectly centers the left H1 and right Update vertically */
+    align-items: center;
     border-bottom: 4px solid #333;
     padding-bottom: 1%;
     margin-bottom: 2%;
@@ -56,7 +56,7 @@
     display: flex;
     align-items: center;
     border-bottom: 2px solid #ccc;
-    height: 6vh; 
+    height: 6.5vh; /* Increased slightly to fit the larger logo comfortably */
 }
 
 .cfr-team:last-child {
@@ -73,8 +73,8 @@
 }
 
 .cfr-logo {
-    height: 4vh;
-    width: 4vh;
+    height: 5vh; /* Increased from 4vh */
+    width: 5vh;  /* Increased from 4vh */
     object-fit: contain;
     margin-right: 2%;
 }
