@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+
 .cfr-container {
     display: flex;
     flex-direction: column;
@@ -5,14 +7,15 @@
     height: 100vh;
     padding: 3%;
     box-sizing: border-box;
-    font-family: inherit;
+    /* Apply Roboto here, falling back to sans-serif if offline */
+    font-family: 'Roboto', sans-serif;
     background-color: transparent;
 }
 
 .cfr-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Changed from flex-end to accommodate stacked text */
+    align-items: flex-start;
     border-bottom: 4px solid #333;
     padding-bottom: 1%;
     margin-bottom: 2%;
@@ -58,14 +61,14 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Forces top-down alignment so rows match */
+    justify-content: flex-start; 
 }
 
 .cfr-team {
     display: flex;
     align-items: center;
     border-bottom: 2px solid #ccc;
-    height: 6vh; /* Fixed height ensures row 1 matches row 1 on the other side */
+    height: 6vh; 
 }
 
 .cfr-team:last-child {
@@ -78,7 +81,7 @@
     width: 8%;
     text-align: right;
     margin-right: 2%;
-    color: #D32F2F; /* Renders as Red on Spectra 6 */
+    color: #D32F2F; 
 }
 
 .cfr-logo {
@@ -101,7 +104,7 @@
 .cfr-record {
     font-size: 3vh;
     font-weight: bold;
-    color: #1976D2; /* Renders as Blue on Spectra 6 */
+    color: #1976D2; 
     text-align: right;
     margin-left: 2%;
 }
