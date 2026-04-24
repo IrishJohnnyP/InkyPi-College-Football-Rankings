@@ -1,3 +1,4 @@
+from datetime import datetime
 from plugins.base_plugin.base_plugin import BasePlugin
 from utils.http_client import get_http_session
 
@@ -11,14 +12,12 @@ class CFBRankings(BasePlugin):
     def generate_image(self, settings, device_config):
         url = "https://college-football-rankings.pietrowicz.workers.dev"
         try:
-            # Using InkyPi's built-in HTTP session utility
             session = get_http_session()
             response = session.get(url, timeout=10)
             
             response.raise_for_status()
             data = response.json()
         except Exception as e:
-            # Raising a RuntimeError will cleanly display the error in the InkyPi Web UI
             raise RuntimeError(f"Failed to fetch college football rankings: {e}")
 
         # CFP rankings take precedence if they are available
@@ -33,13 +32,17 @@ class CFBRankings(BasePlugin):
         col1 = poll_data[:13]
         col2 = poll_data[13:25]
 
+        # Generate a clean timestamp for the "Last Updated" display
+        now = datetime.now().strftime("%b %d, %Y %I:%M %p")
+
         # Prepare parameters for Jinja mapping
         template_params = {
             "meta": data.get("meta", {}),
             "poll_name": poll_name,
             "col1": col1,
             "col2": col2,
-            "plugin_settings": settings
+            "plugin_settings": settings,
+            "last_updated": now
         }
 
         # Uses InkyPi's built-in headless Chromium to render the template
