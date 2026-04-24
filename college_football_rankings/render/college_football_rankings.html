@@ -15,7 +15,9 @@
                 {% if team.logo %}
                     <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
                 {% endif %}
-                <div class="cfr-name">{{ team.team }} ({{ team.nickname }})</div>
+                <div class="cfr-name">
+                    {{ team.team }} <span class="cfr-nickname">({{ team.nickname }})</span>
+                </div>
                 <div class="cfr-record">{{ team.record }}</div>
             </div>
             {% endfor %}
@@ -28,7 +30,9 @@
                 {% if team.logo %}
                     <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
                 {% endif %}
-                <div class="cfr-name">{{ team.team }} ({{ team.nickname }})</div>
+                <div class="cfr-name">
+                    {{ team.team }} <span class="cfr-nickname">({{ team.nickname }})</span>
+                </div>
                 <div class="cfr-record">{{ team.record }}</div>
             </div>
             {% endfor %}
