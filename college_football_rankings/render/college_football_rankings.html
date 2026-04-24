@@ -1,1 +1,38 @@
+{% extends "plugin.html" %}
 
+{% block content %}
+<div class="cfr-container">
+    <div class="cfr-header">
+        <h1>{{ poll_name }} - WEEK {{ meta.week }}</h1>
+        <span class="cfr-season">{{ meta.season }}</span>
+    </div>
+    
+    <div class="cfr-columns">
+        <div class="cfr-column">
+            {% for team in col1 %}
+            <div class="cfr-team">
+                <div class="cfr-rank">{{ team.rank }}.</div>
+                {% if team.logo %}
+                    <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
+                {% endif %}
+                <div class="cfr-name">{{ team.nickname }}</div>
+                <div class="cfr-record">{{ team.record }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="cfr-column">
+            {% for team in col2 %}
+            <div class="cfr-team">
+                <div class="cfr-rank">{{ team.rank }}.</div>
+                {% if team.logo %}
+                    <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
+                {% endif %}
+                <div class="cfr-name">{{ team.nickname }}</div>
+                <div class="cfr-record">{{ team.record }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
