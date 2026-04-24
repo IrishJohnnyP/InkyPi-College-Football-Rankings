@@ -1,5 +1,5 @@
-import requests
-from plugins.base_plugin import BasePlugin
+from plugins.base_plugin.base_plugin import BasePlugin
+from utils.http_client import get_http_session
 
 class CollegeFootballRankings(BasePlugin):
     def generate_image(self, settings, device_config):
