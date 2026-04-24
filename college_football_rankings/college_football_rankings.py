@@ -35,6 +35,10 @@ class CFBRankings(BasePlugin):
         # Generate a clean timestamp for the "Last Updated" display
         now = datetime.now().strftime("%b %d, %Y %I:%M %p")
 
+        # Determine if this is the large screen based on the device config width
+        dimensions = device_config.get_resolution()
+        is_large = dimensions[0] >= 1000
+
         # Prepare parameters for Jinja mapping
         template_params = {
             "meta": data.get("meta", {}),
@@ -42,12 +46,13 @@ class CFBRankings(BasePlugin):
             "col1": col1,
             "col2": col2,
             "plugin_settings": settings,
-            "last_updated": now
+            "last_updated": now,
+            "is_large": is_large
         }
 
         # Uses InkyPi's built-in headless Chromium to render the template
         return self.render_image(
-            dimensions=device_config.get_resolution(),
+            dimensions=dimensions,
             html_file="college_football_rankings.html",
             css_file="college_football_rankings.css",
             template_params=template_params
