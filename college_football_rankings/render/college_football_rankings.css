@@ -12,11 +12,16 @@
 .cfr-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: flex-start; /* Changed from flex-end to accommodate stacked text */
     border-bottom: 4px solid #333;
     padding-bottom: 1%;
     margin-bottom: 2%;
     flex-shrink: 0;
+}
+
+.cfr-title-group {
+    display: flex;
+    flex-direction: column;
 }
 
 .cfr-header h1 {
@@ -24,12 +29,21 @@
     font-size: 5vh;
     font-weight: 800;
     text-transform: uppercase;
+    color: #000;
+}
+
+.cfr-updated {
+    font-size: 2.2vh;
+    font-weight: bold;
+    color: #666;
+    margin-top: 0.5vh;
 }
 
 .cfr-season {
     font-size: 4vh;
     font-weight: bold;
     color: #555;
+    margin-top: 0.5vh;
 }
 
 .cfr-columns {
@@ -44,14 +58,14 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* Forces top-down alignment so rows match */
 }
 
 .cfr-team {
     display: flex;
     align-items: center;
     border-bottom: 2px solid #ccc;
-    flex-grow: 1;
+    height: 6vh; /* Fixed height ensures row 1 matches row 1 on the other side */
 }
 
 .cfr-team:last-child {
@@ -64,7 +78,7 @@
     width: 8%;
     text-align: right;
     margin-right: 2%;
-    color: #D32F2F; /* Deep Red */
+    color: #D32F2F; /* Renders as Red on Spectra 6 */
 }
 
 .cfr-logo {
@@ -75,8 +89,9 @@
 }
 
 .cfr-name {
-    font-size: 3.5vh;
+    font-size: 3.3vh;
     font-weight: bold;
+    color: #000;
     flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
@@ -86,7 +101,7 @@
 .cfr-record {
     font-size: 3vh;
     font-weight: bold;
-    color: #1976D2; /* Deep Blue */
+    color: #1976D2; /* Renders as Blue on Spectra 6 */
     text-align: right;
     margin-left: 2%;
 }
