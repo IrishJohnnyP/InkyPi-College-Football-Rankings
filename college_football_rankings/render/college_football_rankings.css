@@ -1,100 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+{% extends "plugin.html" %}
 
-.cfr-container {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    height: 100vh;
-    /* padding: top right bottom left */
-    /* Reduced top padding to 1% to slide everything up */
-    padding: 1% 3% 3% 3%; 
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    background-color: transparent;
-}
+{% block content %}
+<div class="cfr-container">
+    <div class="cfr-header">
+        <h1>{{ meta.season }} {{ poll_name }} - WEEK {{ meta.week }}</h1>
+        <div class="cfr-updated">Last Updated: {{ last_updated }}</div>
+    </div>
+    
+    <div class="cfr-columns">
+        <div class="cfr-column">
+            {% for team in col1 %}
+            <div class="cfr-team">
+                <div class="cfr-rank">{{ team.rank }}.</div>
+                {% if team.logo %}
+                    <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
+                {% endif %}
+                <div class="cfr-name">
+                    {{ team.team }} <span class="cfr-nickname">({{ team.nickname }})</span>
+                </div>
+                <div class="cfr-record">{{ team.record }}</div>
+            </div>
+            {% endfor %}
+        </div>
 
-.cfr-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 4px solid #000; /* Deepened to solid black */
-    padding-bottom: 1%;
-    margin-bottom: 2%;
-    flex-shrink: 0;
-}
-
-.cfr-header h1 {
-    margin: 0;
-    font-size: 5vh;
-    font-weight: 900; /* Maximized weight for e-ink */
-    text-transform: uppercase;
-    color: #000;
-}
-
-.cfr-updated {
-    font-size: 2.2vh;
-    font-weight: bold;
-    color: #333; /* Darkened for better e-ink contrast */
-    text-align: right;
-    margin: 0;
-}
-
-.cfr-columns {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-grow: 1;
-    gap: 4%;
-}
-
-.cfr-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; 
-}
-
-.cfr-team {
-    display: flex;
-    align-items: center;
-    border-bottom: 2px solid #999; /* Darkened from #ccc so the line doesn't wash out */
-    height: 6.5vh; 
-}
-
-.cfr-team:last-child {
-    border-bottom: none;
-}
-
-.cfr-rank {
-    font-size: 3.5vh;
-    font-weight: 900; /* Heaviest weight */
-    width: 8%;
-    text-align: right;
-    margin-right: 2%;
-    color: #000; /* Changed to Black */
-}
-
-.cfr-logo {
-    height: 5vh; 
-    width: 5vh;  
-    object-fit: contain;
-    margin-right: 2%;
-}
-
-.cfr-name {
-    font-size: 3.3vh;
-    font-weight: bold;
-    color: #000;
-    flex-grow: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.cfr-record {
-    font-size: 3vh;
-    font-weight: 900; /* Increased to heaviest weight */
-    color: #000; /* Changed to Black */
-    text-align: right;
-    margin-left: 2%;
-}
+        <div class="cfr-column">
+            {% for team in col2 %}
+            <div class="cfr-team">
+                <div class="cfr-rank">{{ team.rank }}.</div>
+                {% if team.logo %}
+                    <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
+                {% endif %}
+                <div class="cfr-name">
+                    {{ team.team }} <span class="cfr-nickname">({{ team.nickname }})</span>
+                </div>
+                <div class="cfr-record">{{ team.record }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
