@@ -2,6 +2,12 @@ from plugins.base_plugin.base_plugin import BasePlugin
 from utils.http_client import get_http_session
 
 class CFBRankings(BasePlugin):
+
+    def generate_settings_template(self):
+        params = super().generate_settings_template()
+        params["style_settings"] = True
+        return params
+         
     def generate_image(self, settings, device_config):
         url = "https://college-football-rankings.pietrowicz.workers.dev"
         try:
