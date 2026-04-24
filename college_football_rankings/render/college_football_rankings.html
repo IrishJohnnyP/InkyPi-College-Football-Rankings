@@ -1,60 +1,48 @@
 {% extends "plugin.html" %}
+
 {% block content %}
-
-<div class="nd-container">
-
-  <div class="nd-header">
-    <div class="nd-header-left">
-      {% if team.id %}
-        <img src="https://a.espncdn.com/i/teamlogos/ncaa/500/{{ team.id }}.png" class="nd-logo" alt="ND">
-      {% endif %}
-      <span class="nd-name">Notre Dame Football {{ season }}</span>
+<div class="cfr-container {% if is_large %}cfr-large-display{% endif %}">
+    <div class="cfr-header">
+        <h1>{{ meta.season }} {{ poll_name }} - WEEK {{ meta.week }}</h1>
+        <div class="cfr-updated">Last Updated: {{ last_updated }}</div>
     </div>
     
-    <div class="nd-header-right">
-      Record: {{ team.record }}
+    <div class="cfr-columns">
+        <div class="cfr-column">
+            {% for team in col1 %}
+            <div class="cfr-team">
+                <div class="cfr-rank">{{ team.rank }}.</div>
+                {% if team.logo %}
+                    <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
+                {% endif %}
+                <div class="cfr-name">
+                    {{ team.team }}
+                    {% if not is_large %}
+                        <span class="cfr-nickname">({{ team.nickname }})</span>
+                    {% endif %}
+                </div>
+                <div class="cfr-record">{{ team.record }}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="cfr-column">
+            {% for team in col2 %}
+            <div class="cfr-team">
+                <div class="cfr-rank">{{ team.rank }}.</div>
+                {% if team.logo %}
+                    <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
+                {% endif %}
+                <div class="cfr-name">
+                    {{ team.team }}
+                    {% if not is_large %}
+                        <span class="cfr-nickname">({{ team.nickname }})</span>
+                    {% endif %}
+                </div>
+                <div class="cfr-record">{{ team.record }}</div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-  </div>
-
-  <div class="nd-row nd-head">
-    <div class="date">Date</div>
-    <div class="time">Time</div>
-    <div class="opp">Opponent</div>
-    <div class="opp-record">Record</div>
-    <div class="site">Site</div>
-    <div class="result">Result</div>
-  </div>
-
-  {% for game in games %}
-  <div class="nd-row">
-    <div class="date">{{ game.date[-5:] if game.date else "—" }}</div>
-    <div class="time">{{ game.time or "TBD" }}</div>
-    
-    <div class="opp">
-      {% if game.opponent.logo %}
-        <img src="{{ game.opponent.logo }}" class="logo-sm">
-      {% endif %}
-      <div class="school">
-        {% if game.opponent.rankAtGameTime %}<span class="rank">#{{ game.opponent.rankAtGameTime }}</span>{% endif %}
-        {{ game.opponent.name }}
-        {% if game.opponent.mascot %}<span class="nickname">({{ game.opponent.mascot }})</span>{% endif %}
-      </div>
-    </div>
-
-    <div class="opp-record">{{ game.opponentRecord or "—" }}</div>
-
-    <div class="site">
-      {% if game.homeAway == "neutral" %}Neutral
-      {% elif game.homeAway == "home" %}Home
-      {% else %}Away{% endif %}
-    </div>
-
-    <div class="result {% if game.result and ('L' in game.result) %}loss{% endif %}">
-      {{ game.result or "—" }}
-    </div>
-  </div>
-  {% endfor %}
-
 </div>
-
 {% endblock %}
