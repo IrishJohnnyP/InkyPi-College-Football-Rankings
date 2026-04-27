@@ -10,7 +10,7 @@ class CFBRankings(BasePlugin):
         return params
          
     def generate_image(self, settings, device_config):
-        url = "https://college-football-rankings.pietrowicz.workers.dev"
+        url = "https://cfbrankings.butternut.cloud"
         try:
             session = get_http_session()
             response = session.get(url, timeout=10)
