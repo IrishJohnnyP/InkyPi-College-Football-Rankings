@@ -8,7 +8,7 @@
     padding: 1% 3% 3% 3%; 
     box-sizing: border-box;
     font-family: 'Atkinson Hyperlegible Next', sans-serif;
-    text-rendering: optimizeSpeed; 
+    text-rendering: auto; 
     -webkit-font-smoothing: none !important; 
     font-smoothing: none !important;
     font-variant-ligatures: none;
