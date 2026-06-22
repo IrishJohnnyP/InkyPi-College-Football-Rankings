@@ -1,7 +1,7 @@
 {% extends "plugin.html" %}
 
 {% block content %}
-<div class="cfr-container {% if is_large %}cfr-large-display{% endif %}">
+<div class="cfr-container">
     <div class="cfr-header">
         <h1>{{ meta.season }} {{ poll_name }} - WEEK {{ meta.week }}</h1>
         <div class="cfr-updated">Last Updated: {{ last_updated }}</div>
@@ -12,12 +12,14 @@
             {% for team in col1 %}
             <div class="cfr-team">
                 <div class="cfr-rank">{{ team.rank }}.</div>
-                {% if team.logo %}
-                    <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
-                {% endif %}
+                <div class="cfr-logo-wrap">
+                    {% if team.logo %}
+                        <img class="cfr-logo" src="{{ team.logo }}" alt="">
+                    {% endif %}
+                </div>
                 <div class="cfr-name">
                     {{ team.team }}
-                    {% if not is_large %}
+                    {% if not is_large and team.nickname %}
                         <span class="cfr-nickname">({{ team.nickname }})</span>
                     {% endif %}
                 </div>
@@ -30,12 +32,14 @@
             {% for team in col2 %}
             <div class="cfr-team">
                 <div class="cfr-rank">{{ team.rank }}.</div>
-                {% if team.logo %}
-                    <img class="cfr-logo" src="{{ team.logo }}" alt="{{ team.nickname }}">
-                {% endif %}
+                <div class="cfr-logo-wrap">
+                    {% if team.logo %}
+                        <img class="cfr-logo" src="{{ team.logo }}" alt="">
+                    {% endif %}
+                </div>
                 <div class="cfr-name">
                     {{ team.team }}
-                    {% if not is_large %}
+                    {% if not is_large and team.nickname %}
                         <span class="cfr-nickname">({{ team.nickname }})</span>
                     {% endif %}
                 </div>
