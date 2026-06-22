@@ -1,5 +1,5 @@
 /* ✅ Fixed URL Syntax for the Font Import */
-@import url('https://fonts.googleapis.com/css2?family='Atkinson Hyperlegible Next':wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
 
 :root {
     /* Base 800x480 */
@@ -43,7 +43,7 @@
     height: 100vh;
     padding: 2% 3%;
     box-sizing: border-box;
-    font-family: 'Atkinson Hyperlegible Next', sans-serif !important;
+    font-family: Inter, sans-serif !important;
     text-rendering: auto;
     -webkit-font-smoothing: none !important;
     font-smoothing: none !important;
