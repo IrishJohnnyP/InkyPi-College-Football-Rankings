@@ -1,44 +1,78 @@
-@import url('https://fonts.googleapis.com/css2?family='Atkinson Hyperlegible Next':wght@400;700;900&display=swap');
+/* ✅ Fixed URL Syntax */
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;700;900&display=swap');
+
+:root {
+    /* Base 800x480 */
+    --font-header: 28px;
+    --font-updated: 14px;
+    --font-rank: 20px;
+    --font-name: 20px;
+    --font-nick: 13px;
+    --font-record: 18px;
+
+    --logo-size: 26px;
+    --row-height: 31px;
+
+    /* Grid Column Widths */
+    --col-rank: 35px;
+    --col-logo: 30px;
+}
+
+@media (min-width: 1400px) and (min-height: 1000px) {
+    :root {
+        /* Large 1600x1200 */
+        --font-header: 56px;
+        --font-updated: 24px;
+        --font-rank: 42px;
+        --font-name: 42px;
+        --font-nick: 24px;
+        --font-record: 38px;
+
+        --logo-size: 58px;
+        --row-height: 80px;
+
+        --col-rank: 75px;
+        --col-logo: 65px;
+    }
+}
 
 .cfr-container {
     display: flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    padding: 1% 3% 3% 3%; 
+    padding: 2% 3%;
     box-sizing: border-box;
     font-family: 'Atkinson Hyperlegible Next', sans-serif;
-    text-rendering: auto; 
-    -webkit-font-smoothing: none !important; 
+    text-rendering: auto;
+    -webkit-font-smoothing: none !important;
     font-smoothing: none !important;
     font-variant-ligatures: none;
     background-color: transparent;
+    color: #000;
 }
 
 .cfr-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 4px solid #000; 
-    padding-bottom: 1%;
-    margin-bottom: 2%;
+    align-items: flex-end;
+    border-bottom: 4px solid #000;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
     flex-shrink: 0;
 }
 
 .cfr-header h1 {
     margin: 0;
-    font-size: 5vh;
-    font-weight: 900; 
+    font-size: var(--font-header);
+    font-weight: 900;
     text-transform: uppercase;
-    color: #000;
+    letter-spacing: 0.02em;
 }
 
 .cfr-updated {
-    font-size: 2.2vh;
-    font-weight: bold;
-    color: #333; 
-    text-align: right;
-    margin: 0;
+    font-size: var(--font-updated);
+    font-weight: 700;
 }
 
 .cfr-columns {
@@ -46,21 +80,24 @@
     flex-direction: row;
     justify-content: space-between;
     flex-grow: 1;
-    gap: 4%;
+    gap: 5%;
 }
 
 .cfr-column {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; 
 }
 
+/* ✅ CSS GRID LAYOUT */
 .cfr-team {
-    display: flex;
+    display: grid;
+    /* 1. Rank | 2. Logo | 3. Name (fills space) | 4. Record */
+    grid-template-columns: var(--col-rank) var(--col-logo) 1fr auto;
+    gap: 8px;
     align-items: center;
-    border-bottom: 2px solid #999; 
-    height: 6.5vh; 
+    border-bottom: 2px solid #000; /* Replaced #999 to stop dithering */
+    height: var(--row-height);
 }
 
 .cfr-team:last-child {
@@ -68,46 +105,42 @@
 }
 
 .cfr-rank {
-    font-size: 3.5vh;
-    font-weight: 900; 
-    width: 8%;
+    font-size: var(--font-rank);
+    font-weight: 900;
     text-align: right;
-    margin-right: 2%;
-    color: #000; 
+}
+
+.cfr-logo-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--col-logo);
 }
 
 .cfr-logo {
-    height: 5vh; 
-    width: 5vh;  
+    height: var(--logo-size);
+    width: var(--logo-size);
     object-fit: contain;
-    margin-right: 2%;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
 .cfr-name {
-    font-size: 3.3vh;
-    font-weight: bold;
-    color: #000;
-    flex-grow: 1;
+    font-size: var(--font-name);
+    font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .cfr-nickname {
-    display: inline;
+    font-size: var(--font-nick);
+    font-weight: 400;
+    margin-left: 4px;
 }
 
 .cfr-record {
-    font-size: 3vh;
-    font-weight: 900; 
-    color: #000; 
+    font-size: var(--font-record);
+    font-weight: 700;
     text-align: right;
-    margin-left: 2%;
-}
-
-/* =========================================
-   LARGE SCREEN OVERRIDES (Triggered by Python)
-   ========================================= */
-.cfr-large-display .cfr-record {
-    font-size: 2.6vh; /* Shrinks the record slightly */
 }
