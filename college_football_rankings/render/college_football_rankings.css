@@ -1,4 +1,4 @@
-/* Import Atkinson Hyperlegible Font */
+/* ✅ Fixed URL Syntax for the Font Import */
 @import url('https://fonts.googleapis.com/css2?family='Atkinson Hyperlegible Next':wght@400;700;900&display=swap');
 
 :root {
@@ -43,13 +43,13 @@
     height: 100vh;
     padding: 2% 3%;
     box-sizing: border-box;
-    font-family: 'Atkinson Hyperlegible Next', sans-serif;
+    font-family: 'Atkinson Hyperlegible Next', sans-serif !important;
     text-rendering: auto;
     -webkit-font-smoothing: none !important;
     font-smoothing: none !important;
     font-variant-ligatures: none;
-    background-color: transparent;
-    color: #000;
+    background-color: transparent !important;
+    color: #000 !important;
 }
 
 .cfr-header {
@@ -58,7 +58,7 @@
     align-items: flex-end;
     border-bottom: 4px solid #000;
     
-    /* ✅ TIGHTENED SPACING: Reduced from 8px and 12px */
+    /* TIGHTENED SPACING: Reduced from 8px and 12px */
     padding-bottom: 2px;
     margin-bottom: 4px;
     
@@ -120,12 +120,14 @@
     width: var(--col-logo);
 }
 
+/* ✅ Optimized Crisp E-Ink Logo Rendering */
 .cfr-logo {
-    height: var(--logo-size);
-    width: var(--logo-size);
+    height: var(--logo-size) !important;
+    width: var(--logo-size) !important;
     object-fit: contain;
-    image-rendering: -webkit-optimize-contrast;
-    image-rendering: crisp-edges;
+    image-rendering: -webkit-optimize-contrast !important;
+    image-rendering: crisp-edges !important;
+    image-rendering: pixelated !important;
 }
 
 .cfr-name {
