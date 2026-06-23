@@ -7,7 +7,7 @@
     --font-updated: 14px;
     --font-rank: 20px;
     --font-name: 20px;
-    --font-nick: 15px;
+    --font-nick: 18px; /* <-- INCREASED: was 15px */
     --font-record: 18px;
 
     --logo-size: 26px;
@@ -25,7 +25,7 @@
         --font-updated: 24px;
         --font-rank: 42px;
         --font-name: 42px;
-        --font-nick: 24px;
+        --font-nick: 32px; /* <-- INCREASED: was 24px */
         --font-record: 38px;
 
         --logo-size: 58px;
@@ -41,7 +41,7 @@
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    padding: 2% 3%;
+    padding: 2% 1%; /* <-- REDUCED LEFT/RIGHT MARGINS: was 2% 3% */
     box-sizing: border-box;
     font-family: Roboto, sans-serif !important;
     text-rendering: auto;
