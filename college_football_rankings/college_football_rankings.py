@@ -20,13 +20,14 @@ class CFBRankings(BasePlugin):
         except Exception as e:
             raise RuntimeError(f"Failed to fetch college football rankings: {e}")
 
-        # CFP rankings take precedence if they are available
-        poll_data = data.get("cfp", [])
-        poll_name = "CFP RANKINGS"
-        
-        if not poll_data:
-            poll_data = data.get("ap", [])
-            poll_name = "AP TOP 25"
+        # Extract rankings array and active poll title from Cloudflare Worker
+        poll_data = data.get("ranks", [])
+        poll_name = data.get("poll", "RANKINGS").upper()
+
+        # Map 'school' to 'team' key expected by college_football_rankings.html
+        for item in poll_data:
+            if "team" not in item and "school" in item:
+                item["team"] = item["school"]
 
         # Split the data into two columns: 1-13 and 14-25
         col1 = poll_data[:13]
@@ -39,9 +40,15 @@ class CFBRankings(BasePlugin):
         dimensions = device_config.get_resolution()
         is_large = dimensions[0] >= 1000
 
+        # Construct metadata object expected by Jinja HTML header
+        meta = {
+            "season": data.get("season", ""),
+            "week": data.get("week", "")
+        }
+
         # Prepare parameters for Jinja mapping
         template_params = {
-            "meta": data.get("meta", {}),
+            "meta": meta,
             "poll_name": poll_name,
             "col1": col1,
             "col2": col2,
