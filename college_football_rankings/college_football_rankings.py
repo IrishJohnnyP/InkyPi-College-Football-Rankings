@@ -2,68 +2,58 @@ from datetime import datetime
 from plugins.base_plugin.base_plugin import BasePlugin
 from utils.http_client import get_http_session
 
-WORKER_URL = "https://cfbrankings.butternut.cloud"
-
-
 class CFBRankings(BasePlugin):
 
     def generate_settings_template(self):
         params = super().generate_settings_template()
         params["style_settings"] = True
         return params
+         
+    def generate_image(self, settings, device_config):
+        url = "https://cfbrankings.butternut.cloud"
+        try:
+            session = get_http_session()
+            response = session.get(url, timeout=10)
+            
+            response.raise_for_status()
+            data = response.json()
+        except Exception as e:
+            raise RuntimeError(f"Failed to fetch college football rankings: {e}")
 
-    def _fetch_rankings(self, season, week):
-        session = get_http_session()
+        # CFP rankings take precedence if they are available
+        poll_data = data.get("cfp", [])
+        poll_name = "CFP RANKINGS"
+        
+        if not poll_data:
+            poll_data = data.get("ap", [])
+            poll_name = "AP TOP 25"
 
-        params = {}
-        if season:
-            params["season"] = season
-        if week:
-            params["week"] = week
+        # Split the data into two columns: 1-13 and 14-25
+        col1 = poll_data[:13]
+        col2 = poll_data[13:25]
 
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        # Generate a clean timestamp for the "Last Updated" display
+        now = datetime.now().strftime("%b %d, %Y %I:%M %p")
+
+        # Determine if this is the large screen based on the device config width
+        dimensions = device_config.get_resolution()
+        is_large = dimensions[0] >= 1000
+
+        # Prepare parameters for Jinja mapping
+        template_params = {
+            "meta": data.get("meta", {}),
+            "poll_name": poll_name,
+            "col1": col1,
+            "col2": col2,
+            "plugin_settings": settings,
+            "last_updated": now,
+            "is_large": is_large
         }
 
-        response = session.get(WORKER_URL, params=params, headers=headers, timeout=15)
-        response.raise_for_status()
-        return response.json()
-
-    def generate_image(self, settings, device_config):
-        dimensions = device_config.get_resolution()
-        if device_config.get_config("orientation") == "vertical":
-            dimensions = dimensions[::-1]
-
-        season = settings.get("season")
-        if not season:
-            try:
-                season = str(datetime.now().year)
-            except Exception:
-                season = "2026"
-
-        week = settings.get("week") or "1"
-
-        data = self._fetch_rankings(season, week)
-        
-        poll_name = data.get("poll", "AP Top 25")
-        ranks_list = data.get("ranks", [])
-
+        # Uses InkyPi's built-in headless Chromium to render the template
         return self.render_image(
-            dimensions,
-            "college_football_rankings.html",
-            "college_football_rankings.css",
-            {
-                "rankings": ranks_list,
-                "ranks": ranks_list,
-                "season": data.get("season", season),
-                "week": data.get("week", week),
-                "poll": poll_name,
-                "meta": {
-                    "poll": poll_name,
-                    "season": data.get("season", season),
-                    "week": data.get("week", week),
-                    "generated_at": data.get("generated_at", "")
-                },
-                "plugin_settings": settings
-            }
+            dimensions=dimensions,
+            html_file="college_football_rankings.html",
+            css_file="college_football_rankings.css",
+            template_params=template_params
         )
