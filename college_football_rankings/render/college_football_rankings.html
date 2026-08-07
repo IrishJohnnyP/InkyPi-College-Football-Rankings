@@ -1,52 +1,60 @@
-{% extends "plugin.html" %}
-
-{% block content %}
-<div class="cfr-container">
-    <div class="cfr-header">
-        <h1>{{ meta.season }} {{ poll_name }} - WEEK {{ meta.week }}</h1>
-        <div class="cfr-updated">Last Updated: {{ last_updated }}</div>
-    </div>
-    
-    <div class="cfr-columns">
-        <div class="cfr-column">
-            {% for team in col1 %}
-            <div class="cfr-team">
-                <div class="cfr-rank">{{ team.rank }}.</div>
-                <div class="cfr-logo-wrap">
-                    {% if team.logo %}
-                        <img class="cfr-logo" src="{{ team.logo }}" alt="">
-                    {% endif %}
-                </div>
-                <div class="cfr-name">
-                    {{ team.team }}
-                    {% if not is_large and team.nickname %}
-                        <span class="cfr-nickname">({{ team.nickname }})</span>
-                    {% endif %}
-                </div>
-                <div class="cfr-record">{{ team.record }}</div>
-            </div>
-            {% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>College Football Rankings</title>
+    <link rel="stylesheet" href="college_football_rankings.css">
+</head>
+<body>
+    <div class="cfr-container">
+        <div class="cfr-header">
+            <h1>{{ poll }}</h1>
+            <div class="cfr-updated">WEEK {{ week }} • {{ season }}</div>
         </div>
 
-        <div class="cfr-column">
-            {% for team in col2 %}
-            <div class="cfr-team">
-                <div class="cfr-rank">{{ team.rank }}.</div>
-                <div class="cfr-logo-wrap">
-                    {% if team.logo %}
-                        <img class="cfr-logo" src="{{ team.logo }}" alt="">
-                    {% endif %}
+        <div class="cfr-columns">
+            <!-- Left Column: Ranks 1-13 -->
+            <div class="cfr-column">
+                {% for item in col1 %}
+                <div class="cfr-team">
+                    <div class="cfr-rank">{{ item.rank }}</div>
+                    <div class="cfr-logo-wrap">
+                        {% if item.logo %}
+                        <img class="cfr-logo" src="{{ item.logo }}" alt="" />
+                        {% endif %}
+                    </div>
+                    <div class="cfr-name">
+                        {{ item.name }}
+                        {% if item.nickname %}
+                        <span class="cfr-nickname">{{ item.nickname }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="cfr-record">{{ item.record }}</div>
                 </div>
-                <div class="cfr-name">
-                    {{ team.team }}
-                    {% if not is_large and team.nickname %}
-                        <span class="cfr-nickname">({{ team.nickname }})</span>
-                    {% endif %}
-                </div>
-                <div class="cfr-record">{{ team.record }}</div>
+                {% endfor %}
             </div>
-            {% endfor %}
+
+            <!-- Right Column: Ranks 14-25 -->
+            <div class="cfr-column">
+                {% for item in col2 %}
+                <div class="cfr-team">
+                    <div class="cfr-rank">{{ item.rank }}</div>
+                    <div class="cfr-logo-wrap">
+                        {% if item.logo %}
+                        <img class="cfr-logo" src="{{ item.logo }}" alt="" />
+                        {% endif %}
+                    </div>
+                    <div class="cfr-name">
+                        {{ item.name }}
+                        {% if item.nickname %}
+                        <span class="cfr-nickname">{{ item.nickname }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="cfr-record">{{ item.record }}</div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>
