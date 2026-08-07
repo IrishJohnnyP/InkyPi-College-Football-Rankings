@@ -1,11 +1,47 @@
+/* ✅ Fixed URL Syntax for the Font Import */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500;700;900&display=swap');
+
+:root {
+    /* Base 800x480 */
+    --font-header: 28px;
+    --font-updated: 14px;
+    --font-rank: 20px;
+    --font-name: 20px;
+    --font-nick: 16px; /* <-- INCREASED: was 15px */
+    --font-record: 18px;
+
+    --logo-size: 26px;
+    --row-height: 31px;
+
+    /* Grid Column Widths */
+    --col-rank: 35px;
+    --col-logo: 30px;
+}
+
+@media (min-width: 1400px) and (min-height: 1000px) {
+    :root {
+        /* Large 1600x1200 */
+        --font-header: 56px;
+        --font-updated: 24px;
+        --font-rank: 42px;
+        --font-name: 42px;
+        --font-nick: 32px; /* <-- INCREASED: was 24px */
+        --font-record: 38px;
+
+        --logo-size: 58px;
+        --row-height: 80px;
+
+        --col-rank: 75px;
+        --col-logo: 65px;
+    }
+}
 
 .cfr-container {
     display: flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    padding: 2% 1%;
+    padding: 2% 1%; /* <-- REDUCED LEFT/RIGHT MARGINS: was 2% 3% */
     box-sizing: border-box;
     font-family: Roboto, sans-serif !important;
     text-rendering: auto;
@@ -21,21 +57,24 @@
     justify-content: space-between;
     align-items: flex-end;
     border-bottom: 4px solid #000;
+    
+    /* TIGHTENED SPACING: Reduced from 8px and 12px */
     padding-bottom: 2px;
     margin-bottom: 4px;
+    
     flex-shrink: 0;
 }
 
 .cfr-header h1 {
     margin: 0;
-    font-size: 28px;
+    font-size: var(--font-header);
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.02em;
 }
 
 .cfr-updated {
-    font-size: 14px;
+    font-size: var(--font-updated);
     font-weight: 700;
 }
 
@@ -53,12 +92,15 @@
     flex-direction: column;
 }
 
-/* Replaced CSS Grid with highly-compatible Flexbox */
+/* CSS GRID LAYOUT */
 .cfr-team {
-    display: flex;
+    display: grid;
+    /* 1. Rank | 2. Logo | 3. Name (fills space) | 4. Record */
+    grid-template-columns: var(--col-rank) var(--col-logo) 1fr auto;
+    gap: 8px;
     align-items: center;
     border-bottom: 2px solid #000;
-    height: 31px;
+    height: var(--row-height);
 }
 
 .cfr-team:last-child {
@@ -66,27 +108,22 @@
 }
 
 .cfr-rank {
-    width: 35px;
-    font-size: 20px;
+    font-size: var(--font-rank);
     font-weight: 900;
     text-align: right;
-    flex-shrink: 0;
 }
 
 .cfr-logo-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    margin-left: 8px;
-    margin-right: 8px;
-    flex-shrink: 0;
+    width: var(--col-logo);
 }
 
-/* Hardcoded sizes guarantee the 500px image scales down correctly */
+/* ✅ Optimized Crisp E-Ink Logo Rendering */
 .cfr-logo {
-    height: 26px !important;
-    width: 26px !important;
+    height: var(--logo-size) !important;
+    width: var(--logo-size) !important;
     object-fit: contain;
     image-rendering: -webkit-optimize-contrast !important;
     image-rendering: crisp-edges !important;
@@ -94,37 +131,21 @@
 }
 
 .cfr-name {
-    font-size: 20px;
+    font-size: var(--font-name);
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    flex-grow: 1;
 }
 
 .cfr-nickname {
-    font-size: 16px;
+    font-size: var(--font-nick);
     font-weight: 500;
     margin-left: 4px;
 }
 
 .cfr-record {
-    font-size: 18px;
+    font-size: var(--font-record);
     font-weight: 700;
     text-align: right;
-    flex-shrink: 0;
-    margin-left: 8px;
-}
-
-/* Large Display Overrides */
-@media (min-width: 1400px) and (min-height: 1000px) {
-    .cfr-header h1 { font-size: 56px; }
-    .cfr-updated { font-size: 24px; }
-    .cfr-team { height: 80px; }
-    .cfr-rank { width: 75px; font-size: 42px; }
-    .cfr-logo-wrap { width: 65px; margin-left: 12px; margin-right: 12px; }
-    .cfr-logo { height: 58px !important; width: 58px !important; }
-    .cfr-name { font-size: 42px; }
-    .cfr-nickname { font-size: 32px; }
-    .cfr-record { font-size: 38px; margin-left: 12px; }
 }
