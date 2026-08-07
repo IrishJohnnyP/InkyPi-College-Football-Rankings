@@ -5,7 +5,7 @@ from utils.http_client import get_http_session
 WORKER_URL = "https://cfbrankings.butternut.cloud"
 
 
-class CFBRankings(BasePlugin):
+class cfbrankings(BasePlugin):
 
     def generate_settings_template(self):
         params = super().generate_settings_template()
@@ -44,6 +44,8 @@ class CFBRankings(BasePlugin):
         week = settings.get("week") or "1"
 
         data = self._fetch_rankings(season, week)
+        
+        poll_name = data.get("poll", "AP Top 25")
 
         return self.render_image(
             dimensions,
@@ -53,7 +55,13 @@ class CFBRankings(BasePlugin):
                 "ranks": data.get("ranks", []),
                 "season": data.get("season", season),
                 "week": data.get("week", week),
-                "poll": data.get("poll", "AP Top 25"),
+                "poll": poll_name,
+                "meta": {
+                    "poll": poll_name,
+                    "season": data.get("season", season),
+                    "week": data.get("week", week),
+                    "generated_at": data.get("generated_at", "")
+                },
                 "plugin_settings": settings
             }
         )
