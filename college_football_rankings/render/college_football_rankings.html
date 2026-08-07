@@ -15,7 +15,7 @@
         <div class="cfr-columns">
             <!-- Left Column: Ranks 1-13 -->
             <div class="cfr-column">
-                {% for item in col1 %}
+                {% for item in ranks[:13] %}
                 <div class="cfr-team">
                     <div class="cfr-rank">{{ item.rank }}</div>
                     <div class="cfr-logo-wrap">
@@ -24,7 +24,7 @@
                         {% endif %}
                     </div>
                     <div class="cfr-name">
-                        {{ item.name }}
+                        {{ item.school }}
                         {% if item.nickname %}
                         <span class="cfr-nickname">{{ item.nickname }}</span>
                         {% endif %}
@@ -36,7 +36,7 @@
 
             <!-- Right Column: Ranks 14-25 -->
             <div class="cfr-column">
-                {% for item in col2 %}
+                {% for item in ranks[13:25] %}
                 <div class="cfr-team">
                     <div class="cfr-rank">{{ item.rank }}</div>
                     <div class="cfr-logo-wrap">
@@ -45,7 +45,7 @@
                         {% endif %}
                     </div>
                     <div class="cfr-name">
-                        {{ item.name }}
+                        {{ item.school }}
                         {% if item.nickname %}
                         <span class="cfr-nickname">{{ item.nickname }}</span>
                         {% endif %}
