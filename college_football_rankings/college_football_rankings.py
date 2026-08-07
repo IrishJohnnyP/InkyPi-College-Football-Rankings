@@ -52,6 +52,7 @@ class CFBRankings(BasePlugin):
             "college_football_rankings.html",
             "college_football_rankings.css",
             {
+                "rankings": data.get("ranks", []),
                 "ranks": data.get("ranks", []),
                 "season": data.get("season", season),
                 "week": data.get("week", week),
