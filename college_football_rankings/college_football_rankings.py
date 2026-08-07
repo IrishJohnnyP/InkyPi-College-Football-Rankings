@@ -46,14 +46,15 @@ class CFBRankings(BasePlugin):
         data = self._fetch_rankings(season, week)
         
         poll_name = data.get("poll", "AP Top 25")
+        ranks_list = data.get("ranks", [])
 
         return self.render_image(
             dimensions,
             "college_football_rankings.html",
             "college_football_rankings.css",
             {
-                "rankings": data.get("ranks", []),
-                "ranks": data.get("ranks", []),
+                "rankings": ranks_list,
+                "ranks": ranks_list,
                 "season": data.get("season", season),
                 "week": data.get("week", week),
                 "poll": poll_name,
