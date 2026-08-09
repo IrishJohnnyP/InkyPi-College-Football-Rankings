@@ -19,7 +19,7 @@
                 </div>
                 <div class="cfr-name">
                     {{ team.team }}
-                    {% if not is_large and team.nickname %}
+                    {% if team.nickname %}
                         <span class="cfr-nickname">({{ team.nickname }})</span>
                     {% endif %}
                 </div>
@@ -39,7 +39,7 @@
                 </div>
                 <div class="cfr-name">
                     {{ team.team }}
-                    {% if not is_large and team.nickname %}
+                    {% if team.nickname %}
                         <span class="cfr-nickname">({{ team.nickname }})</span>
                     {% endif %}
                 </div>
