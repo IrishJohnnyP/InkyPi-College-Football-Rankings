@@ -16,6 +16,9 @@
     /* Grid Column Widths */
     --col-rank: 35px;
     --col-logo: 30px;
+    
+    /* Toggle visibility: 'inline' to show, 'none' to hide */
+    --nickname-display: inline;
 }
 
 @media (min-width: 1400px) and (min-height: 1000px) {
@@ -33,6 +36,9 @@
 
         --col-rank: 75px;
         --col-logo: 65px;
+        
+        /* Toggle visibility for large display: 'inline' or 'none' */
+        --nickname-display: inline;
     }
 }
 
@@ -139,6 +145,7 @@
 }
 
 .cfr-nickname {
+    display: var(--nickname-display);
     font-size: var(--font-nick);
     font-weight: 500;
     margin-left: 4px;
