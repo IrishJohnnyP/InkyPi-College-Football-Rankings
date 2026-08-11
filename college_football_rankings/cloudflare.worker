@@ -1,0 +1,125 @@
+export default {
+  async fetch(request, env, ctx) {
+    const CACHE_VERSION = "v9";
+    const url = new URL(request.url);
+    const season = Number(url.searchParams.get("season") ?? "2026");
+    const week = Number(url.searchParams.get("week") ?? "1");
+
+    // Aligned cache key with your DNS routing
+    const cacheKey = new Request(
+      `https://cfbrankings.butternut.cloud/internal-cache/${CACHE_VERSION}/season-${season}-week-${week}`,
+      request
+    );
+
+    const cache = caches.default;
+    const cached = await cache.match(cacheKey);
+    if (cached) return cached;
+
+    const apiKey = env.API_key;
+    const headers = {
+      "Accept": "application/json",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+    };
+
+    if (apiKey) {
+      headers["Authorization"] = `Bearer ${apiKey}`;
+    }
+
+    const rankingsUrl = `https://api.collegefootballdata.com/rankings?year=${season}&week=${week}&seasonType=regular`;
+    const teamsUrl = `https://api.collegefootballdata.com/teams`;
+    const recordsUrl = `https://api.collegefootballdata.com/records?year=${season}`;
+
+    let rankingsData = [];
+    let teamMetaMap = {};
+    let recordsMap = {};
+
+    try {
+      const [rankingsRes, teamsRes, recordsRes] = await Promise.all([
+        fetch(rankingsUrl, { headers }),
+        fetch(teamsUrl, { headers }),
+        fetch(recordsUrl, { headers })
+      ]);
+
+      if (rankingsRes.ok) {
+        rankingsData = await rankingsRes.json();
+      } else {
+        const errText = await rankingsRes.text();
+        return new Response(JSON.stringify({ error: `Rankings API error status ${rankingsRes.status}: ${errText}` }, null, 2), {
+          status: rankingsRes.status,
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        });
+      }
+
+      if (teamsRes.ok) {
+        const teamsData = await teamsRes.json();
+        for (const t of teamsData) {
+          teamMetaMap[t.school] = {
+            mascot: t.mascot ?? "",
+            logo: t.logos?.[0] ?? null
+          };
+        }
+      }
+
+      if (recordsRes.ok) {
+        const recordsData = await recordsRes.json();
+        for (const r of recordsData) {
+          recordsMap[r.team] = `${r.total?.wins ?? 0}-${r.total?.losses ?? 0}`;
+        }
+      }
+    } catch (err) {
+      return new Response(JSON.stringify({ error: err.message }, null, 2), {
+        status: 500,
+        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      });
+    }
+
+    const polls = rankingsData[0]?.polls ?? [];
+    
+    const targetPoll = 
+      polls.find(p => p.poll === "Playoff Committee Rankings") ||
+      polls.find(p => p.poll === "AP Top 25") ||
+      polls.find(p => p.poll === "Coaches Poll") ||
+      polls[0] || 
+      { ranks: [] };
+
+    const ranks = (targetPoll.ranks || []).map(r => {
+      const oppMeta = teamMetaMap[r.school] || { mascot: "", logo: null };
+      const teamRecord = recordsMap[r.school] || "0-0";
+      
+      return {
+        rank: r.rank,
+        school: r.school,
+        team: r.school,
+        nickname: oppMeta.mascot,
+        logo: oppMeta.logo,
+        record: teamRecord,
+        conference: r.conference,
+        firstPlaceVotes: r.firstPlaceVotes ?? 0,
+        points: r.points ?? 0
+      };
+    });
+
+    const payload = {
+      _worker_version: CACHE_VERSION,
+      season,
+      week,
+      poll: targetPoll.poll ?? "AP Top 25",
+      generated_at: new Date().toISOString(),
+      ranks
+    };
+
+    const response = new Response(
+      JSON.stringify(payload, null, 2),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "public, max-age=3600",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    );
+
+    await cache.put(cacheKey, response.clone());
+    return response;
+  },
+};
