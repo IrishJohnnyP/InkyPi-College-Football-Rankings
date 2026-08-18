@@ -19,6 +19,13 @@ class CFBRankings(BasePlugin):
         if season: params["season"] = season
         if week: params["week"] = week
 
+        # --- SECURITY FIX ---
+        # Retrieve the app_key from InkyPi's environment and include it in query params
+        app_key = device_config.load_env_key("app_key")
+        if app_key:
+            params["app_key"] = app_key
+        # --------------------
+
         try:
             session = get_http_session()
             response = session.get(url, params=params, timeout=10)
@@ -28,30 +35,30 @@ class CFBRankings(BasePlugin):
         except Exception as e:
             raise RuntimeError(f"Failed to fetch college football rankings: {e}")
 
-        # Map to the 'ranks' array returned by the Cloudflare Worker[span_7](start_span)[span_7](end_span)
+        # Map to the 'ranks' array returned by the Cloudflare Worker
         poll_data = data.get("ranks", [])
         
-        # Map to the 'poll' string returned by the Worker and uppercase it[span_8](start_span)[span_8](end_span)
+        # Map to the 'poll' string returned by the Worker and uppercase it
         poll_name = data.get("poll", "AP TOP 25").upper()
 
-        # Split the data into two columns: 1-13 and 14-25[span_9](start_span)[span_9](end_span)
+        # Split the data into two columns: 1-13 and 14-25
         col1 = poll_data[:13]
         col2 = poll_data[13:25]
 
-        # Generate a clean timestamp for the "Last Updated" display[span_10](start_span)[span_10](end_span)
+        # Generate a clean timestamp for the "Last Updated" display
         now = datetime.now().strftime("%b %d, %Y %I:%M %p")
 
-        # Determine if this is the large screen based on the device config width[span_11](start_span)[span_11](end_span)
+        # Determine if this is the large screen based on the device config width
         dimensions = device_config.get_resolution()
         is_large = dimensions[0] >= 1000
         
-        # Reconstruct the 'meta' dictionary that the HTML template expects[span_12](start_span)[span_12](end_span)[span_13](start_span)[span_13](end_span)
+        # Reconstruct the 'meta' dictionary that the HTML template expects
         meta_dict = {
             "season": data.get("season", ""),
             "week": data.get("week", "")
         }
 
-        # Prepare parameters for Jinja mapping[span_14](start_span)[span_14](end_span)
+        # Prepare parameters for Jinja mapping
         template_params = {
             "meta": meta_dict,
             "poll_name": poll_name,
@@ -62,7 +69,7 @@ class CFBRankings(BasePlugin):
             "is_large": is_large
         }
 
-        # Uses InkyPi's built-in headless Chromium to render the template[span_15](start_span)[span_15](end_span)
+        # Uses InkyPi's built-in headless Chromium to render the template
         return self.render_image(
             dimensions=dimensions,
             html_file="college_football_rankings.html",
