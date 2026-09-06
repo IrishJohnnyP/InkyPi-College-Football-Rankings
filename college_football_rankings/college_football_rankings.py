@@ -71,7 +71,7 @@ class CFBRankings(BasePlugin):
         # Uses InkyPi's built-in headless Chromium to render the template
         return self.render_image(
             dimensions=dimensions,
-            html_file="cfb_rankings.html",
-            css_file="cfb_rankings.css",
+            html_file="college_football_rankings.html",
+            css_file="college_football_rankings.css",
             template_params=template_params
         )
