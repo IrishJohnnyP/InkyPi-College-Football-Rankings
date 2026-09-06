@@ -1,3 +1,4 @@
+import base64
 import os
 import re
 from datetime import datetime
@@ -34,16 +35,30 @@ class CFBRankings(BasePlugin):
 
         poll_data = data.get("ranks", [])
         
-        base_logo_dir = os.path.abspath("src/static/logos")
+        # Locate static/logos relative to this plugin script's directory
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        logo_dir = os.path.abspath(os.path.join(current_dir, "../../static/logos"))
+        if not os.path.exists(logo_dir):
+            logo_dir = os.path.expanduser("~/InkyPi/src/static/logos")
 
+        # Encode local PNG files directly into inline Base64 data URIs
         for team in poll_data:
             school = team.get("school", "")
             safe_name = school.lower().replace('&', 'and')
             safe_name = re.sub(r'[^a-z0-9]', '_', safe_name)
             safe_name = re.sub(r'_+', '_', safe_name).strip('_')
             
-            absolute_logo_path = os.path.join(base_logo_dir, f"{safe_name}.png")
-            team["local_logo"] = f"file://{absolute_logo_path}"
+            logo_path = os.path.join(logo_dir, f"{safe_name}.png")
+            
+            if os.path.exists(logo_path):
+                try:
+                    with open(logo_path, "rb") as img_file:
+                        b64_data = base64.b64encode(img_file.read()).decode("utf-8")
+                        team["local_logo"] = f"data:image/png;base64,{b64_data}"
+                except Exception:
+                    team["local_logo"] = None
+            else:
+                team["local_logo"] = None
 
         poll_name = data.get("poll", "AP TOP 25").upper()
 
