@@ -1,3 +1,4 @@
+import re
 from datetime import datetime
 from plugins.base_plugin.base_plugin import BasePlugin
 from utils.http_client import get_http_session
@@ -36,6 +37,16 @@ class CFBRankings(BasePlugin):
         # Map to the 'ranks' array returned by the Cloudflare Worker
         poll_data = data.get("ranks", [])
         
+        # Attach local logo paths matching the download_logos.py sanitization
+        for team in poll_data:
+            school = team.get("school", "")
+            safe_name = school.lower().replace('&', 'and')
+            safe_name = re.sub(r'[^a-z0-9]', '_', safe_name)
+            safe_name = re.sub(r'_+', '_', safe_name).strip('_')
+            
+            # Updated to use the src/static/logos path
+            team["local_logo"] = f"src/static/logos/{safe_name}.png"
+
         # Map to the 'poll' string returned by the Worker and uppercase it
         poll_name = data.get("poll", "AP TOP 25").upper()
 
