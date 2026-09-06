@@ -19,12 +19,10 @@ class CFBRankings(BasePlugin):
         if season: params["season"] = season
         if week: params["week"] = week
 
-        # --- SECURITY FIX ---
         # Retrieve the app_key from InkyPi's environment and include it in query params
         app_key = device_config.load_env_key("app_key")
         if app_key:
             params["app_key"] = app_key
-        # --------------------
 
         try:
             session = get_http_session()
@@ -41,9 +39,10 @@ class CFBRankings(BasePlugin):
         # Map to the 'poll' string returned by the Worker and uppercase it
         poll_name = data.get("poll", "AP TOP 25").upper()
 
-        # Split the data into two columns: 1-13 and 14-25
-        col1 = poll_data[:13]
-        col2 = poll_data[13:25]
+        # Split the data evenly into two columns matching your HTML template structure
+        midpoint = (len(poll_data) + 1) // 2
+        col1 = poll_data[:midpoint]
+        col2 = poll_data[midpoint:]
 
         # Generate a clean timestamp for the "Last Updated" display
         now = datetime.now().strftime("%b %d, %Y %I:%M %p")
@@ -72,7 +71,7 @@ class CFBRankings(BasePlugin):
         # Uses InkyPi's built-in headless Chromium to render the template
         return self.render_image(
             dimensions=dimensions,
-            html_file="college_football_rankings.html",
-            css_file="college_football_rankings.css",
+            html_file="cfb_rankings.html",
+            css_file="cfb_rankings.css",
             template_params=template_params
         )
