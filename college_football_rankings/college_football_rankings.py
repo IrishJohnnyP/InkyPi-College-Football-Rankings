@@ -1,9 +1,21 @@
 import base64
+import logging
 import os
 import re
 from datetime import datetime
 from plugins.base_plugin.base_plugin import BasePlugin
 from utils.http_client import get_http_session
+
+logger = logging.getLogger(__name__)
+
+# Common school name variations between Rankings API and downloaded filenames
+SCHOOL_ALIASES = {
+    "ole miss": "mississippi",
+    "miami": "miami_fl",
+    "penn state": "pennsylvania_state",
+    "nc state": "north_carolina_state",
+    "app state": "appalachian_state",
+}
 
 class CFBRankings(BasePlugin):
 
@@ -11,7 +23,21 @@ class CFBRankings(BasePlugin):
         params = super().generate_settings_template()
         params["style_settings"] = True
         return params
-         
+
+    def _find_logo_dir(self):
+        """Locate static/logos directory across system service paths."""
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        candidate_dirs = [
+            "/home/john/InkyPi/src/static/logos",
+            "/home/john/InkyPi/static/logos",
+            os.path.abspath(os.path.join(current_dir, "../../static/logos")),
+            "/usr/local/inkypi/src/static/logos",
+        ]
+        for d in candidate_dirs:
+            if os.path.isdir(d):
+                return d
+        return candidate_dirs[0]
+
     def generate_image(self, settings, device_config):
         url = "https://cfbrankings.butternut.cloud"
         
@@ -34,31 +60,39 @@ class CFBRankings(BasePlugin):
             raise RuntimeError(f"Failed to fetch college football rankings: {e}")
 
         poll_data = data.get("ranks", [])
-        
-        # Locate static/logos relative to this plugin script's directory
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        logo_dir = os.path.abspath(os.path.join(current_dir, "../../static/logos"))
-        if not os.path.exists(logo_dir):
-            logo_dir = os.path.expanduser("~/InkyPi/src/static/logos")
+        logo_dir = self._find_logo_dir()
+        logger.info(f"[CFBRankings] Active logo directory: {logo_dir}")
 
-        # Encode local PNG files directly into inline Base64 data URIs
         for team in poll_data:
             school = team.get("school", "")
-            safe_name = school.lower().replace('&', 'and')
+            
+            clean_school = school.lower().strip()
+            if clean_school in SCHOOL_ALIASES:
+                clean_school = SCHOOL_ALIASES[clean_school]
+
+            safe_name = clean_school.replace('&', 'and')
             safe_name = re.sub(r'[^a-z0-9]', '_', safe_name)
             safe_name = re.sub(r'_+', '_', safe_name).strip('_')
-            
-            logo_path = os.path.join(logo_dir, f"{safe_name}.png")
-            
-            if os.path.exists(logo_path):
-                try:
-                    with open(logo_path, "rb") as img_file:
-                        b64_data = base64.b64encode(img_file.read()).decode("utf-8")
-                        team["local_logo"] = f"data:image/png;base64,{b64_data}"
-                except Exception:
-                    team["local_logo"] = None
-            else:
-                team["local_logo"] = None
+
+            candidate_files = [f"{safe_name}.png", f"{safe_name}.jpg", f"{safe_name}.svg"]
+            logo_b64 = None
+
+            for c_file in candidate_files:
+                full_path = os.path.join(logo_dir, c_file)
+                if os.path.exists(full_path):
+                    try:
+                        with open(full_path, "rb") as img_f:
+                            encoded = base64.b64encode(img_f.read()).decode("utf-8")
+                            ext = "svg+xml" if c_file.endswith(".svg") else "png"
+                            logo_b64 = f"data:image/{ext};base64,{encoded}"
+                            break
+                    except Exception as img_err:
+                        logger.warning(f"[CFBRankings] Error reading logo {full_path}: {img_err}")
+
+            if not logo_b64:
+                logger.warning(f"[CFBRankings] Logo file missing for '{school}' (expected '{safe_name}.png' in {logo_dir})")
+
+            team["local_logo"] = logo_b64
 
         poll_name = data.get("poll", "AP TOP 25").upper()
 
