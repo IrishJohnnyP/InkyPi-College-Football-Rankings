@@ -8,15 +8,6 @@ from utils.http_client import get_http_session
 
 logger = logging.getLogger(__name__)
 
-# Common school name variations between Rankings API and downloaded filenames
-SCHOOL_ALIASES = {
-    "ole miss": "mississippi",
-    "miami": "miami_fl",
-    "penn state": "pennsylvania_state",
-    "nc state": "north_carolina_state",
-    "app state": "appalachian_state",
-}
-
 class CFBRankings(BasePlugin):
 
     def generate_settings_template(self):
@@ -66,11 +57,8 @@ class CFBRankings(BasePlugin):
         for team in poll_data:
             school = team.get("school", "")
             
-            clean_school = school.lower().strip()
-            if clean_school in SCHOOL_ALIASES:
-                clean_school = SCHOOL_ALIASES[clean_school]
-
-            safe_name = clean_school.replace('&', 'and')
+            # Sanitize the exact same way as download_logos.py
+            safe_name = school.lower().replace('&', 'and')
             safe_name = re.sub(r'[^a-z0-9]', '_', safe_name)
             safe_name = re.sub(r'_+', '_', safe_name).strip('_')
 
