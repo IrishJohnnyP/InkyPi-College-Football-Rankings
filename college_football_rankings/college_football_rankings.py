@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import datetime
 from plugins.base_plugin.base_plugin import BasePlugin
@@ -13,14 +14,12 @@ class CFBRankings(BasePlugin):
     def generate_image(self, settings, device_config):
         url = "https://cfbrankings.butternut.cloud"
         
-        # Pass season and week settings to Cloudflare Worker if configured
         season = settings.get("season")
         week = settings.get("week")
         params = {}
         if season: params["season"] = season
         if week: params["week"] = week
 
-        # Retrieve the app_key from InkyPi's environment and include it in query params
         app_key = device_config.load_env_key("app_key")
         if app_key:
             params["app_key"] = app_key
@@ -28,47 +27,41 @@ class CFBRankings(BasePlugin):
         try:
             session = get_http_session()
             response = session.get(url, params=params, timeout=10)
-            
             response.raise_for_status()
             data = response.json()
         except Exception as e:
             raise RuntimeError(f"Failed to fetch college football rankings: {e}")
 
-        # Map to the 'ranks' array returned by the Cloudflare Worker
         poll_data = data.get("ranks", [])
         
-        # Attach local logo paths matching the download_logos.py sanitization
+        # Build the absolute base path to your InkyPi static folder
+        base_logo_dir = os.path.abspath("src/static/logos")
+
         for team in poll_data:
             school = team.get("school", "")
             safe_name = school.lower().replace('&', 'and')
             safe_name = re.sub(r'[^a-z0-9]', '_', safe_name)
             safe_name = re.sub(r'_+', '_', safe_name).strip('_')
             
-            # Updated to use the src/static/logos path
-            team["local_logo"] = f"src/static/logos/{safe_name}.png"
+            # Construct a foolproof absolute file:// URI for headless Chromium
+            absolute_logo_path = os.path.join(base_logo_dir, f"{safe_name}.png")
+            team["local_logo"] = f"file://{absolute_logo_path}"
 
-        # Map to the 'poll' string returned by the Worker and uppercase it
         poll_name = data.get("poll", "AP TOP 25").upper()
 
-        # Split the data evenly into two columns matching your HTML template structure
         midpoint = (len(poll_data) + 1) // 2
         col1 = poll_data[:midpoint]
         col2 = poll_data[midpoint:]
 
-        # Generate a clean timestamp for the "Last Updated" display
         now = datetime.now().strftime("%b %d, %Y %I:%M %p")
-
-        # Determine if this is the large screen based on the device config width
         dimensions = device_config.get_resolution()
         is_large = dimensions[0] >= 1000
         
-        # Reconstruct the 'meta' dictionary that the HTML template expects
         meta_dict = {
             "season": data.get("season", ""),
             "week": data.get("week", "")
         }
 
-        # Prepare parameters for Jinja mapping
         template_params = {
             "meta": meta_dict,
             "poll_name": poll_name,
@@ -79,10 +72,9 @@ class CFBRankings(BasePlugin):
             "is_large": is_large
         }
 
-        # Uses InkyPi's built-in headless Chromium to render the template
         return self.render_image(
             dimensions=dimensions,
-            html_file="college_football_rankings.html",
-            css_file="college_football_rankings.css",
+            html_file="cfb_rankings.html",
+            css_file="cfb_rankings.css",
             template_params=template_params
         )
