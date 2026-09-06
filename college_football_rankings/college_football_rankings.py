@@ -34,7 +34,6 @@ class CFBRankings(BasePlugin):
 
         poll_data = data.get("ranks", [])
         
-        # Build the absolute base path to your InkyPi static folder
         base_logo_dir = os.path.abspath("src/static/logos")
 
         for team in poll_data:
@@ -43,7 +42,6 @@ class CFBRankings(BasePlugin):
             safe_name = re.sub(r'[^a-z0-9]', '_', safe_name)
             safe_name = re.sub(r'_+', '_', safe_name).strip('_')
             
-            # Construct a foolproof absolute file:// URI for headless Chromium
             absolute_logo_path = os.path.join(base_logo_dir, f"{safe_name}.png")
             team["local_logo"] = f"file://{absolute_logo_path}"
 
@@ -74,7 +72,7 @@ class CFBRankings(BasePlugin):
 
         return self.render_image(
             dimensions=dimensions,
-            html_file="cfb_rankings.html",
-            css_file="cfb_rankings.css",
+            html_file="college_football_rankings.html",
+            css_file="college_football_rankings.css",
             template_params=template_params
         )
