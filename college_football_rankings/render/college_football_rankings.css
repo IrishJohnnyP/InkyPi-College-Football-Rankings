@@ -30,8 +30,8 @@
         /* Large 1600x1200 */
         --font-header: 56px;
         --font-updated: 24px;
-        --font-rank: 42px;
-        --font-name: 42px;
+        --font-rank: 48px; /* <-- INCREASED: was 42px */
+        --font-name: 48px; /* <-- INCREASED: was 42px */
         --font-nick: 32px; /* <-- INCREASED: was 24px */
         --font-record: 38px;
 
