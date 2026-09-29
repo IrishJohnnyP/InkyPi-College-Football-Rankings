@@ -22,7 +22,7 @@
 /* Also mapped font-weight 900 to Bold since Barlow Bold is max 700, ensuring your headers still render thick */
 @font-face {
   font-family: 'Barlow Condensed';
-  src: url('/src/static/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+  src: url('../../../static/fonts/BarlowCondensed-Bold.ttf') format('truetype');
   font-weight: 900;
   font-style: normal;
 }
