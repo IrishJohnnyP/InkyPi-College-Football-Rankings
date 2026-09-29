@@ -42,7 +42,7 @@
         --col-logo: 65px;
         
         /* Toggle visibility for large display: 'inline' or 'none' */
-        --nickname-display: inline;
+        --nickname-display: none;
     }
 }
 
