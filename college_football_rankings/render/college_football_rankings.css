@@ -60,6 +60,11 @@
     font-variant-ligatures: none;
     background-color: transparent !important;
     color: #000 !important;
+  
+  /* ✅ Optimizations for numerical alignment and digit legibility */
+  font-variant-numeric: tabular-nums; 
+  font-feature-settings: "cv05" 1, "tnum" 1;
+
 }
 
 .cfr-header {
