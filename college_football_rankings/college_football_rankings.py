@@ -48,4 +48,4 @@ class CFBRankings(BasePlugin):
             response.raise_for_status()
             data = response.json()
         except Exception as e:
-            raise RuntimeError(f"Failed to fetch college football rankings: {
+            raise RuntimeError(f"Failed to fetch college football rankings: {e}")
