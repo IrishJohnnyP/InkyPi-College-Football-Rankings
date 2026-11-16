@@ -13,7 +13,7 @@
     --font-name: 24px; /* <-- INCREASED: was 20px */
     --font-nick: 16px; /* <-- INCREASED: was 16px */
     --font-record: 18px;
-
+    --col-gap: 20px;
     --logo-size: 26px;
     --row-height: 31px;
 
@@ -34,7 +34,7 @@
         --font-name: 48px; /* <-- INCREASED: was 42px */
         --font-nick: 32px; /* <-- INCREASED: was 32px */
         --font-record: 38px;
-
+        --col-gap: 45px;
         --logo-size: 58px;
         --row-height: 80px;
 
@@ -98,7 +98,7 @@
     flex-direction: row;
     justify-content: space-between;
     flex-grow: 1;
-    gap: 5%;
+    gap: var(--col-gap);
 }
 
 .cfr-column {
