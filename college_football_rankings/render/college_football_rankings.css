@@ -6,203 +6,230 @@
 }
 
 :root {
-    /* Base 800x480 */
-    --font-header: 28px;
-    --font-updated: 14px;
-    --font-rank: 20px;
-    --font-name: 24px;
-    --font-nick: 16px;
-    --font-record: 18px;
-    --col-gap: 20px;
-    --logo-size: 26px;
-    --row-height: 31px;
+  /* Base 800x480 (smallinky) */
+  --font-header: 28px;
+  --font-updated: 14px;
+  --font-rank: 20px;
+  --font-name: 24px;
+  --font-nick: 16px;
+  --font-record: 18px;
+  --col-gap: 20px;
+  --logo-size: 26px;
+  --row-height: 31px;
+  --name-pad: 1.5px 2px;
+  --header-border: 4px;
+  --row-border: 2px;
 
-    /* Grid Column Widths */
-    --col-rank: 35px;
-    --col-logo: 30px;
-    
-    /* Toggle visibility: 'inline' to show, 'none' to hide */
-    --nickname-display: inline;
+  /* Grid Column Widths */
+  --col-rank: 35px;
+  --col-logo: 30px;
 
-    /* 1px zero-blur pure-#FFFFFF halo for 800x480 */
-    --text-halo:
-      -1px  0   0 #ffffff,
-       1px  0   0 #ffffff,
-       0   -1px 0 #ffffff,
-       0    1px 0 #ffffff,
-      -1px -1px 0 #ffffff,
-       1px -1px 0 #ffffff,
-      -1px  1px 0 #ffffff,
-       1px  1px 0 #ffffff;
-    --logo-halo:
-      drop-shadow(-1px  0   0 #ffffff)
-      drop-shadow( 1px  0   0 #ffffff)
-      drop-shadow( 0   -1px 0 #ffffff)
-      drop-shadow( 0    1px 0 #ffffff)
-      drop-shadow(-1px -1px 0 #ffffff)
-      drop-shadow( 1px -1px 0 #ffffff)
-      drop-shadow(-1px  1px 0 #ffffff)
-      drop-shadow( 1px  1px 0 #ffffff);
+  /* Toggle visibility: 'inline' to show, 'none' to hide */
+  --nickname-display: inline;
+
+  /* Two-ring zero-blur pure-#FFFFFF octagonal halo (2px outer / 1px inner for 800x480) */
+  --text-halo:
+    -1px    0      0 #ffffff,
+     1px    0      0 #ffffff,
+     0     -1px    0 #ffffff,
+     0      1px    0 #ffffff,
+    -1px   -1px    0 #ffffff,
+     1px   -1px    0 #ffffff,
+    -1px    1px    0 #ffffff,
+     1px    1px    0 #ffffff,
+    -2px    0      0 #ffffff,
+     2px    0      0 #ffffff,
+     0     -2px    0 #ffffff,
+     0      2px    0 #ffffff,
+    -1.5px -1.5px  0 #ffffff,
+     1.5px -1.5px  0 #ffffff,
+    -1.5px  1.5px  0 #ffffff,
+     1.5px  1.5px  0 #ffffff;
+  --logo-halo:
+    drop-shadow(-1.5px  0      0 #ffffff)
+    drop-shadow( 1.5px  0      0 #ffffff)
+    drop-shadow( 0     -1.5px  0 #ffffff)
+    drop-shadow( 0      1.5px  0 #ffffff)
+    drop-shadow(-1px   -1px    0 #ffffff)
+    drop-shadow( 1px   -1px    0 #ffffff)
+    drop-shadow(-1px    1px    0 #ffffff)
+    drop-shadow( 1px    1px    0 #ffffff);
 }
 
 @media (min-width: 1400px) and (min-height: 1000px) {
-    :root {
-        /* Large 1600x1200 */
-        --font-header: 56px;
-        --font-updated: 24px;
-        --font-rank: 48px;
-        --font-name: 48px;
-        --font-nick: 34px;
-        --font-record: 38px;
-        --col-gap: 45px;
-        --logo-size: 58px;
-        --row-height: 80px;
+  :root {
+    /* Large 1600x1200 (LargeInky) */
+    --font-header: 56px;
+    --font-updated: 24px;
+    --font-rank: 48px;
+    --font-name: 48px;
+    --font-nick: 34px;
+    --font-record: 38px;
+    --col-gap: 45px;
+    --logo-size: 58px;
+    --row-height: 80px;
+    --name-pad: 3px 3px;
+    --header-border: 6px;
+    --row-border: 3px;
 
-        --col-rank: 75px;
-        --col-logo: 65px;
-        
-        /* Toggle visibility for large display: 'inline' or 'none' */
-        --nickname-display: inline;
+    --col-rank: 75px;
+    --col-logo: 65px;
 
-        /* 2px octagonal zero-blur pure-#FFFFFF halo for 1600x1200 */
-        --text-halo:
-          -2px    0      0 #ffffff,
-           2px    0      0 #ffffff,
-           0     -2px    0 #ffffff,
-           0      2px    0 #ffffff,
-          -1.5px -1.5px  0 #ffffff,
-           1.5px -1.5px  0 #ffffff,
-          -1.5px  1.5px  0 #ffffff,
-           1.5px  1.5px  0 #ffffff;
-        --logo-halo:
-          drop-shadow(-2px    0      0 #ffffff)
-          drop-shadow( 2px    0      0 #ffffff)
-          drop-shadow( 0     -2px    0 #ffffff)
-          drop-shadow( 0      2px    0 #ffffff)
-          drop-shadow(-1.5px -1.5px  0 #ffffff)
-          drop-shadow( 1.5px -1.5px  0 #ffffff)
-          drop-shadow(-1.5px  1.5px  0 #ffffff)
-          drop-shadow( 1.5px  1.5px  0 #ffffff);
-    }
+    /* Toggle visibility for large display: 'inline' or 'none' */
+    --nickname-display: inline;
+
+    /* Two-ring zero-blur pure-#FFFFFF octagonal halo (3px outer / 1.5px inner for 1600x1200) */
+    --text-halo:
+      -1.5px  0      0 #ffffff,
+       1.5px  0      0 #ffffff,
+       0     -1.5px  0 #ffffff,
+       0      1.5px  0 #ffffff,
+      -1px   -1px    0 #ffffff,
+       1px   -1px    0 #ffffff,
+      -1px    1px    0 #ffffff,
+       1px    1px    0 #ffffff,
+      -3px    0      0 #ffffff,
+       3px    0      0 #ffffff,
+       0     -3px    0 #ffffff,
+       0      3px    0 #ffffff,
+      -2px   -2px    0 #ffffff,
+       2px   -2px    0 #ffffff,
+      -2px    2px    0 #ffffff,
+       2px    2px    0 #ffffff;
+    --logo-halo:
+      drop-shadow(-2.5px  0      0 #ffffff)
+      drop-shadow( 2.5px  0      0 #ffffff)
+      drop-shadow( 0     -2.5px  0 #ffffff)
+      drop-shadow( 0      2.5px  0 #ffffff)
+      drop-shadow(-2px   -2px    0 #ffffff)
+      drop-shadow( 2px   -2px    0 #ffffff)
+      drop-shadow(-2px    2px    0 #ffffff)
+      drop-shadow( 2px    2px    0 #ffffff);
+  }
 }
 
 .cfr-container,
 .cfr-container * {
-    font-family: 'Roboto Condensed', sans-serif !important;
-    text-rendering: auto;
-    -webkit-font-smoothing: none !important;
-    font-smoothing: none !important;
-    font-variant-ligatures: none;
-    background-color: transparent !important;
-    color: #000 !important;
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "cv05" 1, "tnum" 1;
-    text-shadow: var(--text-halo) !important;
+  font-family: 'Roboto Condensed', sans-serif !important;
+  text-rendering: auto;
+  -webkit-font-smoothing: none !important;
+  font-smoothing: none !important;
+  font-variant-ligatures: none;
+  background-color: transparent !important;
+  color: #000 !important;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "cv05" 1, "tnum" 1;
+  text-shadow: var(--text-halo) !important;
 }
 
 .cfr-container {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    height: 100vh;
-    padding: 2% 1%;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  padding: 1.5% 1%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .cfr-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 4px solid #000;
-    padding-bottom: 2px;
-    margin-bottom: 4px;
-    flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: var(--header-border) solid #000;
+  padding-bottom: 3px;
+  margin-bottom: 4px;
+  flex-shrink: 0;
 }
 
 .cfr-header h1 {
-    margin: 0;
-    font-size: var(--font-header);
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
+  margin: 0;
+  font-size: var(--font-header);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
 }
 
 .cfr-updated {
-    font-size: var(--font-updated);
-    font-weight: 700;
+  font-size: var(--font-updated);
+  font-weight: 700;
+  padding-right: 3px;
 }
 
 .cfr-columns {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-grow: 1;
-    gap: var(--col-gap);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-grow: 1;
+  gap: var(--col-gap);
 }
 
 .cfr-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* CSS GRID LAYOUT */
 .cfr-team {
-    display: grid;
-    /* 1. Rank | 2. Logo | 3. Name (fills space) | 4. Record */
-    grid-template-columns: var(--col-rank) var(--col-logo) 1fr auto;
-    gap: 8px;
-    align-items: center;
-    border-bottom: 2px solid #000;
-    height: var(--row-height);
+  display: grid;
+  /* 1. Rank | 2. Logo | 3. Name (fills space) | 4. Record */
+  grid-template-columns: var(--col-rank) var(--col-logo) 1fr auto;
+  gap: 8px;
+  align-items: center;
+  border-bottom: var(--row-border) solid #000;
+  height: var(--row-height);
 }
 
 .cfr-team:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .cfr-rank {
-    font-size: var(--font-rank);
-    font-weight: 900;
-    text-align: right;
+  font-size: var(--font-rank);
+  font-weight: 900;
+  text-align: right;
+  padding-left: 2px;
 }
 
 .cfr-logo-wrap {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: var(--col-logo);
-    overflow: visible;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: var(--col-logo);
+  overflow: visible;
 }
 
 /* Optimized Crisp E-Ink Logo Rendering */
 .cfr-logo {
-    height: var(--logo-size) !important;
-    width: var(--logo-size) !important;
-    object-fit: contain;
-    image-rendering: -webkit-optimize-contrast !important;
-    image-rendering: crisp-edges !important;
-    image-rendering: pixelated !important;
-    filter: var(--logo-halo) !important;
+  height: var(--logo-size) !important;
+  width: var(--logo-size) !important;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast !important;
+  image-rendering: crisp-edges !important;
+  image-rendering: pixelated !important;
+  filter: var(--logo-halo) !important;
 }
 
 .cfr-name {
-    font-size: var(--font-name);
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: var(--font-name);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: var(--name-pad);
 }
 
 .cfr-nickname {
-    display: var(--nickname-display);
-    font-size: var(--font-nick);
-    font-weight: 500;
-    margin-left: 4px;
+  display: var(--nickname-display);
+  font-size: var(--font-nick);
+  font-weight: 500;
+  margin-left: 4px;
 }
 
 .cfr-record {
-    font-size: var(--font-record);
-    font-weight: 700;
-    text-align: right;
+  font-size: var(--font-record);
+  font-weight: 700;
+  text-align: right;
+  padding-right: 3px;
 }
