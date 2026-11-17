@@ -10,8 +10,8 @@
     --font-header: 28px;
     --font-updated: 14px;
     --font-rank: 20px;
-    --font-name: 24px; /* <-- INCREASED: was 20px */
-    --font-nick: 16px; /* <-- INCREASED: was 16px */
+    --font-name: 24px;
+    --font-nick: 16px;
     --font-record: 18px;
     --col-gap: 20px;
     --logo-size: 26px;
@@ -23,6 +23,26 @@
     
     /* Toggle visibility: 'inline' to show, 'none' to hide */
     --nickname-display: inline;
+
+    /* 1px zero-blur pure-#FFFFFF halo for 800x480 */
+    --text-halo:
+      -1px  0   0 #ffffff,
+       1px  0   0 #ffffff,
+       0   -1px 0 #ffffff,
+       0    1px 0 #ffffff,
+      -1px -1px 0 #ffffff,
+       1px -1px 0 #ffffff,
+      -1px  1px 0 #ffffff,
+       1px  1px 0 #ffffff;
+    --logo-halo:
+      drop-shadow(-1px  0   0 #ffffff)
+      drop-shadow( 1px  0   0 #ffffff)
+      drop-shadow( 0   -1px 0 #ffffff)
+      drop-shadow( 0    1px 0 #ffffff)
+      drop-shadow(-1px -1px 0 #ffffff)
+      drop-shadow( 1px -1px 0 #ffffff)
+      drop-shadow(-1px  1px 0 #ffffff)
+      drop-shadow( 1px  1px 0 #ffffff);
 }
 
 @media (min-width: 1400px) and (min-height: 1000px) {
@@ -30,9 +50,9 @@
         /* Large 1600x1200 */
         --font-header: 56px;
         --font-updated: 24px;
-        --font-rank: 48px; /* <-- INCREASED: was 42px */
-        --font-name: 48px; /* <-- INCREASED: was 42px */
-        --font-nick: 34px; /* <-- INCREASED: was 32px */
+        --font-rank: 48px;
+        --font-name: 48px;
+        --font-nick: 34px;
         --font-record: 38px;
         --col-gap: 45px;
         --logo-size: 58px;
@@ -43,16 +63,31 @@
         
         /* Toggle visibility for large display: 'inline' or 'none' */
         --nickname-display: inline;
+
+        /* 2px octagonal zero-blur pure-#FFFFFF halo for 1600x1200 */
+        --text-halo:
+          -2px    0      0 #ffffff,
+           2px    0      0 #ffffff,
+           0     -2px    0 #ffffff,
+           0      2px    0 #ffffff,
+          -1.5px -1.5px  0 #ffffff,
+           1.5px -1.5px  0 #ffffff,
+          -1.5px  1.5px  0 #ffffff,
+           1.5px  1.5px  0 #ffffff;
+        --logo-halo:
+          drop-shadow(-2px    0      0 #ffffff)
+          drop-shadow( 2px    0      0 #ffffff)
+          drop-shadow( 0     -2px    0 #ffffff)
+          drop-shadow( 0      2px    0 #ffffff)
+          drop-shadow(-1.5px -1.5px  0 #ffffff)
+          drop-shadow( 1.5px -1.5px  0 #ffffff)
+          drop-shadow(-1.5px  1.5px  0 #ffffff)
+          drop-shadow( 1.5px  1.5px  0 #ffffff);
     }
 }
 
-.cfr-container {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    height: 100vh;
-    padding: 2% 1%; /* <-- REDUCED LEFT/RIGHT MARGINS: was 2% 3% */
-    box-sizing: border-box;
+.cfr-container,
+.cfr-container * {
     font-family: 'Roboto Condensed', sans-serif !important;
     text-rendering: auto;
     -webkit-font-smoothing: none !important;
@@ -60,11 +95,18 @@
     font-variant-ligatures: none;
     background-color: transparent !important;
     color: #000 !important;
-  
-  /* ✅ Optimizations for numerical alignment and digit legibility */
-  font-variant-numeric: tabular-nums; 
-  font-feature-settings: "cv05" 1, "tnum" 1;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "cv05" 1, "tnum" 1;
+    text-shadow: var(--text-halo) !important;
+}
 
+.cfr-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    padding: 2% 1%;
+    box-sizing: border-box;
 }
 
 .cfr-header {
@@ -72,11 +114,8 @@
     justify-content: space-between;
     align-items: flex-end;
     border-bottom: 4px solid #000;
-    
-    /* TIGHTENED SPACING: Reduced from 8px and 12px */
     padding-bottom: 2px;
     margin-bottom: 4px;
-    
     flex-shrink: 0;
 }
 
@@ -133,9 +172,10 @@
     justify-content: center;
     align-items: center;
     width: var(--col-logo);
+    overflow: visible;
 }
 
-/* ✅ Optimized Crisp E-Ink Logo Rendering */
+/* Optimized Crisp E-Ink Logo Rendering */
 .cfr-logo {
     height: var(--logo-size) !important;
     width: var(--logo-size) !important;
@@ -143,6 +183,7 @@
     image-rendering: -webkit-optimize-contrast !important;
     image-rendering: crisp-edges !important;
     image-rendering: pixelated !important;
+    filter: var(--logo-halo) !important;
 }
 
 .cfr-name {
