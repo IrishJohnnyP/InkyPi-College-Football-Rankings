@@ -69,7 +69,7 @@
     --font-name: 48px;
     --font-nick: 34px;
     --font-record: 38px;
-    --col-gap: 45px;
+    --col-gap: 40px; /* Was 45px */
     --grid-gap: 8px;
     --logo-size: 58px;
     --row-height: 80px;
