@@ -1,9 +1,33 @@
 @font-face {
-  font-family: 'Roboto Condensed';
+  font-family: 'Barlow Condensed';
   src:
-    local('Roboto Condensed'),
-    url('../../../static/fonts/RobotoCondensed-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900;
+    local('Barlow Condensed Regular'),
+    local('Barlow Condensed'),
+    url('../../../static/fonts/BarlowCondensed-Regular.ttf') format('truetype'),
+    url('file:///home/john/InkyPi/src/static/fonts/BarlowCondensed-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  src:
+    local('Barlow Condensed Medium'),
+    url('../../../static/fonts/BarlowCondensed-Medium.ttf') format('truetype'),
+    url('file:///home/john/InkyPi/src/static/fonts/BarlowCondensed-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  src:
+    local('Barlow Condensed Bold'),
+    url('../../../static/fonts/BarlowCondensed-Bold.ttf') format('truetype'),
+    url('file:///home/john/InkyPi/src/static/fonts/BarlowCondensed-Bold.ttf') format('truetype');
+  font-weight: 700 900;
   font-style: normal;
   font-display: block;
 }
@@ -16,7 +40,7 @@
   --font-name: 24px;
   --font-nick: 16px;
   --font-record: 18px;
-  --col-gap: 15px; /* Was 20px */
+  --col-gap: 15px;
   --grid-gap: 6px;
   --logo-size: 26px;
   --row-height: 31px;
@@ -66,10 +90,10 @@
     --font-header: 56px;
     --font-updated: 24px;
     --font-rank: 48px;
-    --font-name: 48px;
-    --font-nick: 34px;
+    --font-name: 44px;
+    --font-nick: 30px;
     --font-record: 38px;
-    --col-gap: 40px; /* Was 45px */
+    --col-gap: 45px;
     --grid-gap: 8px;
     --logo-size: 58px;
     --row-height: 80px;
@@ -115,7 +139,7 @@
 
 .cfr-container,
 .cfr-container * {
-  font-family: 'Roboto Condensed', 'Barlow Condensed', 'Liberation Sans Narrow', sans-serif !important;
+  font-family: 'Barlow Condensed', 'Roboto Condensed', sans-serif !important;
   text-rendering: auto;
   -webkit-font-smoothing: none !important;
   font-smoothing: none !important;
@@ -180,7 +204,7 @@
 .cfr-team {
   display: grid;
   /* 1. Rank | 2. Logo | 3. Name (fills space) | 4. Record */
-  grid-template-columns: var(--col-rank) var(--col-logo) 1fr auto;
+  grid-template-columns: var(--col-rank) var(--col-logo) minmax(0, 1fr) auto;
   gap: var(--grid-gap);
   align-items: center;
   border-bottom: var(--row-border) solid #000;
@@ -218,6 +242,7 @@
 }
 
 .cfr-name {
+  min-width: 0;
   font-size: var(--font-name);
   font-weight: 700;
   white-space: nowrap;
