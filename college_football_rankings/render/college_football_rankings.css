@@ -1,8 +1,11 @@
 @font-face {
   font-family: 'Roboto Condensed';
-  src: url('../../../static/fonts/RobotoCondensed-VariableFont_wght.ttf') format('truetype');
+  src:
+    local('Roboto Condensed'),
+    url('../../../static/fonts/RobotoCondensed-VariableFont_wght.ttf') format('truetype');
   font-weight: 100 900;
   font-style: normal;
+  font-display: block;
 }
 
 :root {
@@ -13,7 +16,8 @@
   --font-name: 24px;
   --font-nick: 16px;
   --font-record: 18px;
-  --col-gap: 15px; /*Was 20px */
+  --col-gap: 15px; /* Was 20px */
+  --grid-gap: 6px;
   --logo-size: 26px;
   --row-height: 31px;
   --name-pad: 1.5px 2px;
@@ -66,6 +70,7 @@
     --font-nick: 34px;
     --font-record: 38px;
     --col-gap: 45px;
+    --grid-gap: 8px;
     --logo-size: 58px;
     --row-height: 80px;
     --name-pad: 3px 3px;
@@ -110,7 +115,7 @@
 
 .cfr-container,
 .cfr-container * {
-  font-family: 'Roboto Condensed', sans-serif !important;
+  font-family: 'Roboto Condensed', 'Barlow Condensed', 'Liberation Sans Narrow', sans-serif !important;
   text-rendering: auto;
   -webkit-font-smoothing: none !important;
   font-smoothing: none !important;
@@ -165,7 +170,8 @@
 }
 
 .cfr-column {
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -175,7 +181,7 @@
   display: grid;
   /* 1. Rank | 2. Logo | 3. Name (fills space) | 4. Record */
   grid-template-columns: var(--col-rank) var(--col-logo) 1fr auto;
-  gap: 8px;
+  gap: var(--grid-gap);
   align-items: center;
   border-bottom: var(--row-border) solid #000;
   height: var(--row-height);
@@ -224,7 +230,7 @@
   display: var(--nickname-display);
   font-size: var(--font-nick);
   font-weight: 500;
-  margin-left: 4px;
+  margin-left: 3px;
 }
 
 .cfr-record {
